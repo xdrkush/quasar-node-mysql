@@ -12,11 +12,11 @@ tuto quasar node mysql
   (https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
 
 # Install Project
-1ere etape monter notre application front-end avec quasar
-2eme etape configurer back-end en commençant par notre DB et nous démarrons notre back
+  - 1ere etape monter notre application front-end avec quasar
+  - 2eme etape configurer back-end en commençant par notre DB et nous démarrons notre back
 
 ( ???
-Nous avons besoin de 2 terminal en mode de développement:
+  - Nous avons besoin de 2 terminal en mode de développement:
     - 1 pour notre compilation du mode developpement de quasar
     - 1 autre pour notre api express avec node js et notre relation avec notre db
 )
@@ -33,11 +33,11 @@ quasar dev
 ```
 
 ## Deuxième terminal:
-Démarrer la base de données local:
+  - Démarrer la base de données local:
 ```
 sudo systemctl start mariadb.service
 ```
-Ouvrir la console mariadb:
+  - Ouvrir la console mariadb:
 ```
 sudo mariadb
 ```
