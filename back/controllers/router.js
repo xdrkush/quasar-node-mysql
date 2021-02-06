@@ -7,7 +7,7 @@ const express = require('express'),
 /*
  * Controller
  *************/ 
-const articleController = require('./userController')
+const userController = require('./userController')
 
 /*
  * Router
@@ -18,14 +18,14 @@ const articleController = require('./userController')
 //     .get(homeController.get)
 
 // Article
-router.route('/article')
-    .get(articleController.get)
-    .post(articleController.post)
-    .delete(articleController.deleteAll)
+router.route('/user')
+    .get(userController.get)
+    .post(userController.post)
+    .delete(userController.deleteAll)
 
 // Article ID
-router.route('/article/:id')
-    .delete(articleController.deleteOne)
+router.route('/user/:id')
+    .delete(userController.deleteOne)
 
 // Contact
 // router.route('/contact')

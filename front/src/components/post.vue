@@ -4,7 +4,7 @@
     <q-separator/>
 
     <!-- Formulaire -->
-    <q-form class='q-pa-md' @submit='createUser'  method="post">
+    <q-form class='q-pa-md' @submit='formCreateUser'  method="post">
 
       <!-- Input -->
       <q-input class='q-my-sm' rounded outlined v-model="form.name" label="first name" />
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'post',
@@ -34,17 +34,10 @@ export default {
     }
   },
   methods: {
-    createUser () {
-      axios
-        .post('/article', {
-          name: this.form.name,
-          mobile: this.form.mobile,
-          email: this.form.email
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    formCreateUser () {
+      this.createUser(this.form)
+    },
+    ...mapActions('user', ['createUser'])
   }
 }
 </script>

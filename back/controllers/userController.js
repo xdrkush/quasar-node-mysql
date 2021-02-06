@@ -14,7 +14,7 @@ module.exports = {
             if (error) throw error;
             res.json({
                 status: 200,
-                dbArticle: data,
+                listUser: data,
                 message: "users lists retrieved successfully"
             })
         })
@@ -30,16 +30,15 @@ module.exports = {
         db.query(sql, [values], function (err, data, fields) {
             if (err) throw err;
             let sql = `SELECT * FROM users`;
-            db.query(sql, (error, data, fields) => {
+            db.query(sql, (error, dataRes, fields) => {
                 if (error) throw error;
                 res.json({
                     status: 200,
-                    dbArticle: data,
+                    listUser: dataRes,
                     message: "Add Customer successfully"
                 })
             })
         })
-
     },
     // Method Delete One
     deleteOne: (req, res) => {
@@ -47,14 +46,14 @@ module.exports = {
         let values = [
             req.params.id
         ];
-        db.query(sql, [values], function (err, data, fields) {
+        db.query(sql, [values], function (err, del, fields) {
             if (err) throw err;
             let sql = `SELECT * FROM users`;
             db.query(sql, (error, data, fields) => {
                 if (error) throw error;
                 res.json({
                     status: 200,
-                    dbArticle: data,
+                    listUser: data,
                     message: "Delete Customer successfully"
                 })
             })

@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Quasar App vs Node (Express) & MySQL
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>

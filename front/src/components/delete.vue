@@ -1,23 +1,23 @@
 <template>
   <q-card class="col-md-3 col-xs-3 text-center">
-    <p class="text-h4">Delete</p>
+    <p class="text-h4">{{ title }}</p>
     <q-separator/>
 
     <q-list bordered>
-      <q-item v-for="contact in contacts" :key="contact.id" class="q-my-sm" clickable v-ripple>
+      <q-item v-for="user in listUser" :key="user.id" class="q-my-sm" clickable v-ripple>
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
-            {{ contact.letter }}
+            {{ user.letter }}
           </q-avatar>
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>{{ contact.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
+          <q-item-label>{{ user.name }}</q-item-label>
+          <q-item-label caption lines="1">{{ user.email }}</q-item-label>
         </q-item-section>
 
         <q-item-section side>
-          <q-icon name="close" color="red" @click="deleteUser(contact.id)" />
+          <q-icon name="close" color="red" @click="deleteOneUser(user.id)" />
         </q-item-section>
       </q-item>
 
@@ -28,29 +28,23 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'get',
+  name: 'delete',
   data () {
     return {
-      contacts: []
+      title: 'Delete'
     }
   },
   methods: {
-    getUser () {
-      axios
-        .get('/article')
-        .then(res => { this.contacts = res.data.dbArticle })
-    },
-    deleteUser (id) {
-      axios
-        .delete(`/article/${id}`)
-        .then(res => { this.contacts = res.data.dbArticle })
-    }
+    ...mapActions('user', ['getListUser', 'deleteOneUser'])
+  },
+  computed: {
+    ...mapState('user', ['listUser'])
   },
   mounted () {
-    this.getUser()
+    this.getListUser()
   }
 }
 </script>
