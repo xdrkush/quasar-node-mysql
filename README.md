@@ -39,7 +39,7 @@ sudo systemctl start mariadb.service
 ```
   - Ouvrir la console mariadb:
 ```
-sudo mariadb
+sudo mysql
 ```
 
 ## dans la console mariadb:
