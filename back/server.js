@@ -24,8 +24,8 @@ app.use(cors({
 // Mysql
 db = mysql.createConnection({
     host: 'localhost',
-    user: 'arinfo',
-    password: 'rfn2K21$',
+    user: 'tuto',
+    password: 'tuto$',
     database: 'quasar_tutorial'
 });
 

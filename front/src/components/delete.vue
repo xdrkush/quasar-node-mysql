@@ -4,7 +4,7 @@
     <q-separator/>
 
     <q-list bordered>
-      <q-item v-for="user in listUser" :key="user.id" class="q-my-sm" clickable v-ripple>
+      <q-item v-for="user in listUser" :key="user.id" @click="showModalUser(user)" class="q-my-sm" clickable v-ripple>
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
             {{ user.letter }}
@@ -17,34 +17,54 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-icon name="close" color="red" @click="deleteOneUser(user.id)" />
+          <q-icon name="close" color="red" />
         </q-item-section>
       </q-item>
 
       <q-separator />
     </q-list>
 
+    <!-- Modal User -->
+    <modalUser
+      v-if='modalUser'
+      :modal.sync='modalUser'
+      :data='user'
+      :delete='formDelete'
+      @closeModalUser='closeModal()'
+    />
+    <!-- / Modal User -->
+
   </q-card>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import modalUser from './modal/modalUser'
 
 export default {
   name: 'delete',
   data () {
     return {
-      title: 'Delete'
+      title: 'Delete',
+      modalUser: null,
+      formDelete: null
     }
   },
+  components: {
+    modalUser
+  },
   methods: {
-    ...mapActions('user', ['getListUser', 'deleteOneUser'])
+    showModalUser (data) {
+      this.user = data
+      this.modalUser = true
+      this.formDelete = true
+    },
+    closeModal () {
+      this.modalUser = false
+      this.formDelete = null
+    }
   },
-  computed: {
-    ...mapState('user', ['listUser'])
-  },
-  mounted () {
-    this.getListUser()
+  props: {
+    listUser: Array
   }
 }
 </script>

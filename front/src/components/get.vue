@@ -4,7 +4,7 @@
     <q-separator/>
 
     <q-list bordered>
-      <q-item v-for="user in listUser" :key="user.id" class="q-my-sm" clickable v-ripple>
+      <q-item v-for="user in listUser" :key="user.id" class="q-my-sm" @click="showModalUser(user)" clickable v-ripple>
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
             {{ user.letter }}
@@ -17,34 +17,51 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-icon name="edit" color="warning" />
+          <q-icon name="visibility" color="green"/>
         </q-item-section>
       </q-item>
 
       <q-separator />
     </q-list>
 
+    <!-- Modal User -->
+    <modalUser
+      v-if='modalUser'
+      :modal.sync='modalUser'
+      :data='user'
+      @closeModalUser='closeModal()'
+    />
+    <!-- / Modal User -->
+
   </q-card>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import modalUser from './modal/modalUser'
 
 export default {
   name: 'get',
   data () {
     return {
-      title: 'Get'
+      title: 'Get',
+      modalUser: false,
+      user: null
     }
   },
+  components: {
+    modalUser
+  },
   methods: {
-    ...mapActions('user', ['getListUser'])
+    showModalUser (data) {
+      this.user = data
+      this.modalUser = true
+    },
+    closeModal () {
+      this.modalUser = false
+    }
   },
-  computed: {
-    ...mapState('user', ['listUser'])
-  },
-  mounted () {
-    this.getListUser()
+  props: {
+    listUser: Array
   }
 }
 </script>

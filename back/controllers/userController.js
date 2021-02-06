@@ -40,6 +40,28 @@ module.exports = {
             })
         })
     },
+    // Method Edit One User
+    editOne: (req, res) => {
+        let sql = `UPDATE users 
+                   SET name = '${req.body.name}',
+                       mobile = '${req.body.mobile}',
+                       email = '${req.body.email}'
+                   WHERE id = '${req.params.id}';`
+
+        db.query(sql, function (err, edit, fields) {
+            if (err) throw err;
+            let sql = `SELECT * FROM users`;
+            console.log(edit)
+            db.query(sql, (error, data, fields) => {
+                if (error) throw error;
+                res.json({
+                    status: 200,
+                    listUser: data,
+                    message: "Update Customer successfully"
+                })
+            })
+        })
+    },
     // Method Delete One
     deleteOne: (req, res) => {
         let sql = `DELETE FROM users  WHERE id = ?`;
