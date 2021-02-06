@@ -48,13 +48,13 @@ sudo mariadb
 
 ```
 create user 'tuto'@'localhost' identified by 'tuto$';
-create database quasar_tutorial;
 grant all privileges on *.* to 'tuto'@'localhost';
 flush privileges;
 ```
 ## Et enfin si vos utilisateur sont déja creer
 (toujour dans la console)
 ```
+create database quasar_tutorial;
 grant all privileges on quasar_tutorial.* to 'tuto'@'localhost';
 flush privileges;
 ```
