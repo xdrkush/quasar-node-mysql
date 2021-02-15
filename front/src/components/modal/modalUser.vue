@@ -14,7 +14,7 @@
           <q-btn label='Annuler' class="col-md-4 q-mt-md bg-warning text-primary"
             rounded icon="close" clickable @click="$emit('closeModalUser')" />
           <q-btn label='Confirmer' class="col-md-4 q-mt-md bg-primary text-warning"
-            rounded icon="check" clickable @click="deleteOneUser($props.data.id)" />
+            rounded icon="check" clickable @click="submitDeleteUser($props.data.id)" />
         </q-item>
 
       </q-card>
@@ -31,6 +31,10 @@ export default {
     headerUser
   },
   methods: {
+    submitDeleteUser (id) {
+      this.deleteOneUser(id)
+      this.$emit('closeModalUser')
+    },
     ...mapActions('user', ['deleteOneUser'])
   },
   props: {
