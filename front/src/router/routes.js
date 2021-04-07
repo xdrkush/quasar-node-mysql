@@ -13,7 +13,7 @@ const routes = [
     path: '/user',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'PageUser', component: () => import('pages/User.vue'), props: true }
+      { path: ':id', name: 'PageUser', component: () => import('pages/User.vue'), props: true }
     ]
   },
 

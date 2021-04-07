@@ -1,57 +1,38 @@
 <template>
   <q-page class='q-pa-md'>
 
-    <headerUser :data='this.form'/>
+    <p>{{ this.userID }}</p>
 
-    <q-form @submit='formEditUser' class='col-md-12 col-12 col-xs-12 q-pa-md q-gutter-md row'>
-      <div class='row justify-around'>
+    <headerUser :data='this.userID'/>
 
-        <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
-          rounded v-model="form.email" label="Email" />
-        <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
-          rounded v-model="form.name" label="Name" />
-        <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
-          rounded v-model="form.mobile" label="Mobile" />
+    <formEditUser :data='this.userID'/>
 
-        <q-btn label='Submit'
-          type='submit' class="col-md-4 q-mt-md bg-grey-10 text-primary" rounded />
-
-      </div>
-    </q-form>
+    <!-- <tableBook :user='this.userID' /> -->
 
   </q-page>
 </template>
 
 <script>
 import headerUser from '../components/headerUserId'
-import { mapActions } from 'vuex'
+// import tableBook from '../components/tableBook'
+import formEditUser from '../components/formEditUser'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'PageUser',
-  data () {
-    return {
-      form: {
-        id: this.user.id,
-        name: this.user.name,
-        email: this.user.email,
-        mobile: this.user.mobile
-      }
-    }
-  },
   components: {
-    headerUser
+    headerUser,
+    // tableBook
+    formEditUser
+  },
+  computed: {
+    ...mapGetters('user', ['userID'])
   },
   methods: {
-    formEditUser () {
-      this.editOneUser(this.form)
-    },
-    ...mapActions('user', ['editOneUser'])
+    ...mapActions('user', ['editOneUser', 'getUserId'])
   },
-  props: ['user'],
   mounted () {
-    if (this.user) {
-      console.log('params: ', this.user)
-    }
+    this.getUserId(this.$route.params.id)
   }
 }
 </script>

@@ -8,21 +8,34 @@ const express = require('express'),
  * Controller
  *************/
 const userController = require('./userController')
+const bookController = require('./bookController')
 
 /*
  * Router
  ***********/
 
-// Article
+// User
 router.route('/user')
     .get(userController.get)
     .post(userController.post)
     .delete(userController.deleteAll)
 
-// Article ID
+// User ID
 router.route('/user/:id')
+    .get(userController.getID)
     .put(userController.editOne)
     .delete(userController.deleteOne)
+
+// Book
+router.route('/book')
+    .post(bookController.post)
+
+// Book ID
+router.route('/book/:id')
+    .delete(bookController.deleteOne)
+
+router.route('/book/user/:id')
+    .get(bookController.getBookJoinUser)
 
 /***********
  * / Router

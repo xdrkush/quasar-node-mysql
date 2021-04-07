@@ -1,12 +1,16 @@
 import axios from 'axios'
 
 const state = {
-  listUser: []
+  listUser: [],
+  userId: {}
 }
 
 const mutations = {
   setListUser (state, value) {
     state.listUser = value
+  },
+  setUserId (state, value) {
+    state.userId = value
   }
 }
 
@@ -19,10 +23,17 @@ const actions = {
         commit('setListUser', res.data.listUser)
       })
   },
+  getUserId ({ commit }, payload) {
+    console.log('Get User ID')
+    axios
+      .get('/user/' + payload)
+      .then(res => {
+        commit('setUserId', res.data.userID)
+      })
+  },
   // eslint-disable-next-line no-empty-pattern
   createUser ({ commit }, payload) {
     const p = payload
-    console.log(p)
     axios
       .post('/user', {
         name: p.name,
@@ -63,7 +74,11 @@ const actions = {
   }
 }
 
-const getters = {}
+const getters = {
+  userID: state => {
+    return state.userId
+  }
+}
 
 export default {
   namespaced: true,

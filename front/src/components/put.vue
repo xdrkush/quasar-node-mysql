@@ -1,5 +1,6 @@
 <template>
   <q-card class="col-md-3 col-xs-3 text-center">
+
     <p class="text-h4">{{ title }}</p>
     <q-separator/>
 
@@ -7,7 +8,7 @@
       <q-item v-for="user in listUser"
         :key="user.id" class="q-my-sm"
         clickable  v-ripple
-        :to='{ name: "PageUser", params: { user } }'
+        :to='{ path: "/user/" + user.id }'
       >
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">

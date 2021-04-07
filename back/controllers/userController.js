@@ -19,6 +19,23 @@ module.exports = {
             })
         })
     },
+    // Method Get
+    getID: async (req, res) => {
+        // Variable de récupération de tout les users
+        let sql = `SELECT * FROM users
+                   WHERE id = '${req.params.id}';`;
+
+        console.log('controller getID user: ', req.params.id)
+
+        db.query(sql, (error, data) => {
+            if (error) throw error;
+            res.json({
+                status: 200,
+                userID: data[0],
+                message: "users ID retrieved successfully"
+            })
+        })
+    },
     // Method Post
     post: async (req, res) => {
         let sql = `INSERT INTO users (name,email,mobile) values(?)`;
@@ -27,10 +44,10 @@ module.exports = {
             req.body.email,
             req.body.mobile
         ];
-        db.query(sql, [values], function (err, data, fields) {
+        db.query(sql, [values], function (err) {
             if (err) throw err;
             let sql = `SELECT * FROM users`;
-            db.query(sql, (error, dataRes, fields) => {
+            db.query(sql, (error, dataRes) => {
                 if (error) throw error;
                 res.json({
                     status: 200,
@@ -48,11 +65,11 @@ module.exports = {
                        email = '${req.body.email}'
                    WHERE id = '${req.params.id}';`
 
-        db.query(sql, function (err, edit, fields) {
+        db.query(sql, function (err, edit) {
             if (err) throw err;
             let sql = `SELECT * FROM users`;
             console.log(edit)
-            db.query(sql, (error, data, fields) => {
+            db.query(sql, (error, data) => {
                 if (error) throw error;
                 res.json({
                     status: 200,

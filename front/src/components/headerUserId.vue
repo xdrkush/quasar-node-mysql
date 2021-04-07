@@ -10,9 +10,6 @@
           <q-avatar size="96px" class="q-ma-md shadow-10">
             <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.G93kCBjK6aDrjCbDNJ0dBAAAAA%26pid%3DApi&f=1" />
           </q-avatar>
-          <q-item class="row justify-center" style="position: relative; top: -26px; width: auto">
-            <p class="text-h6 text-grey-10 bg-grey-1 q-px-md text-center">{{ data.title }}</p>
-          </q-item>
         </div>
 
         <div class="column absolute-left text-center" style="max-width: 80%">
@@ -22,6 +19,7 @@
             </p>
             <p class="q-pa-xs">{{ data.email }}</p>
             <p class="text-h6 q-pa-xs">{{ data.mobile }}</p>
+            <p class="text-h6 q-pa-xs">ID: {{ data.id }}</p>
           </div>
         </div>
 
