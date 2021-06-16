@@ -1,117 +1,104 @@
 /*
  * Import Module
  ****************/
+const {
+    selectAll, selectAllById, selectAllByKey, insertInto, updateOne, deleteByID, deleteAll
+} = require('../store-sql')
 
 /*
  * Controller
  *************/
-module.exports = {
-    // Method Get
-    get: async (req, res) => {
-        // Variable de récupération de tout les users
-        let sql = `SELECT * FROM users`;
-        db.query(sql, (error, data, fields) => {
-            if (error) throw error;
+
+// Method Get
+exports.get = async (req, res) => {
+    console.log('Controller GET USER: ')
+
+    await selectAll('users').then(data => {
+        res.json({
+            status: 200,
+            listUser: data,
+            message: "users lists retrieved successfully"
+        })
+    }).catch(err => console.log(err))
+}
+
+// Method GetID
+exports.getID = async (req, res) => {
+    await selectAllById('users', req.params.id).then(data => {
+        res.json({
+            status: 200,
+            user: data,
+            message: "users lists retrieved successfully"
+        })
+    }).catch(err => console.log(err))
+}
+
+// Method GetByKey
+exports.getByKey = async (req, res) => {
+    await selectAllByKey('users', req.params).then(data => {
+        res.json({
+            status: 200,
+            user: data,
+            message: "users lists retrieved successfully"
+        })
+    }).catch(err => console.log(err))
+}
+
+// Method Post
+exports.post = async (req, res) => {
+    console.log('Controller POST USER: ', req.body)
+
+    // SQL pour creer un users
+    // values = (name, email, mobile)
+    await insertInto('users', { ...req.body }).then(async () => {
+        await selectAll('users').then(data => {
             res.json({
                 status: 200,
                 listUser: data,
-                message: "users lists retrieved successfully"
+                message: "Add Users successfully"
             })
         })
-    },
-    // Method Get
-    getID: async (req, res) => {
-        // Variable de récupération de tout les users
-        let sql = `SELECT * FROM users
-                   WHERE id = '${req.params.id}';`;
+    }).catch(err => console.log(err))
+}
 
-        console.log('controller getID user: ', req.params.id)
+// Method Edit One User
+exports.editOne = (req, res) => {
+    console.log('Controller EditOne USER: ', req.body)
 
-        db.query(sql, (error, data) => {
-            if (error) throw error;
+    updateOne('users', { ...req.body }, req.params.id).then(() => {
+        selectAll('users').then(data => {
             res.json({
                 status: 200,
-                userID: data[0],
-                message: "users ID retrieved successfully"
+                listUser: data,
+                message: "Update Users successfully"
             })
         })
-    },
-    // Method Post
-    post: async (req, res) => {
-        let sql = `INSERT INTO users (name,email,mobile) values(?)`;
-        let values = [
-            req.body.name,
-            req.body.email,
-            req.body.mobile
-        ];
-        db.query(sql, [values], function (err) {
-            if (err) throw err;
-            let sql = `SELECT * FROM users`;
-            db.query(sql, (error, dataRes) => {
-                if (error) throw error;
-                res.json({
-                    status: 200,
-                    listUser: dataRes,
-                    message: "Add Customer successfully"
-                })
-            })
-        })
-    },
-    // Method Edit One User
-    editOne: (req, res) => {
-        let sql = `UPDATE users 
-                   SET name = '${req.body.name}',
-                       mobile = '${req.body.mobile}',
-                       email = '${req.body.email}'
-                   WHERE id = '${req.params.id}';`
+    }).catch(err => console.log(err))
+}
 
-        db.query(sql, function (err, edit) {
-            if (err) throw err;
-            let sql = `SELECT * FROM users`;
-            console.log(edit)
-            db.query(sql, (error, data) => {
-                if (error) throw error;
-                res.json({
-                    status: 200,
-                    listUser: data,
-                    message: "Update Customer successfully"
-                })
+// Method Delete One
+exports.deleteOne = (req, res) => {
+    console.log('Controller DeleteOne USER: ', req.params.id)
+    deleteByID('users', req.params.id).then(() => {
+        selectAll('users').then(data => {
+            res.json({
+                status: 200,
+                listUser: data,
+                message: "Delete Users successfully"
             })
         })
-    },
-    // Method Delete One
-    deleteOne: (req, res) => {
-        let sql = `DELETE FROM users  WHERE id = ?`;
-        let values = [
-            req.params.id
-        ];
-        db.query(sql, [values], function (err, del, fields) {
-            if (err) throw err;
-            let sql = `SELECT * FROM users`;
-            db.query(sql, (error, data, fields) => {
-                if (error) throw error;
-                res.json({
-                    status: 200,
-                    listUser: data,
-                    message: "Delete Customer successfully"
-                })
+    })
+}
+
+// Method Delete All
+exports.deleteAll = (req, res) => {
+    deleteAll('users').then(() => {
+        selectAll('users').then(data => {
+            res.json({
+                status: 200,
+                listUser: data,
+                message: "Delete All Users successfully"
             })
         })
-    },
-    // Method Delete All
-    deleteAll: (req, res) => {
-        let sql = `DELETE FROM users`;
-        db.query(sql, function (err, data, fields) {
-            if (err) throw err;
-            let sql = `SELECT * FROM users`;
-            db.query(sql, (error, data, fields) => {
-                if (error) throw error;
-                res.json({
-                    status: 200,
-                    dbArticle: data,
-                    message: "Delete All Customer successfully"
-                })
-            })
-        })
-    }
+    })
 }

@@ -5,6 +5,8 @@
       <div class='row justify-around col-md-12 col-12 col-xs-12 '>
 
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
+          rounded v-model="form.id" label="ID" disable/>
+        <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
           rounded v-model="form.email" label="Email" />
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
           rounded v-model="form.name" label="Name" />
@@ -41,7 +43,7 @@ export default {
     },
     mountedData () {
       console.log('COMPFormEditUser: ', this.userID.name)
-    //   this.form = this.userID
+      this.form = this.user
     },
     ...mapActions('user', ['editOneUser'])
   },
@@ -49,7 +51,7 @@ export default {
     ...mapGetters('user', ['userID'])
   },
   props: {
-    data: {
+    user: {
       type: Object
     }
   },

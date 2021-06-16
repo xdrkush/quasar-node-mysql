@@ -7,12 +7,8 @@ const
     app = express(),
     mysql = require('mysql'),
     bodyParser = require('body-parser'),
-    methodOverride = require('method-override'),
     cors = require('cors'),
     port = process.env.PORT || 4000;
-
-// Method-Override
-app.use(methodOverride('_method'))
 
 // Cors
 app.use(cors({

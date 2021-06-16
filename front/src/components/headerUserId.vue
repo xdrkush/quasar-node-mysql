@@ -15,11 +15,11 @@
         <div class="column absolute-left text-center" style="max-width: 80%">
           <div class="text-grey-12" style="max-width: 70%; min-width: 50%;">
             <p class="text-h4 text-bold q-pa-none">
-              <u>{{ data.name }}</u>
+              <u>{{ user.name }}</u>
             </p>
-            <p class="q-pa-xs">{{ data.email }}</p>
-            <p class="text-h6 q-pa-xs">{{ data.mobile }}</p>
-            <p class="text-h6 q-pa-xs">ID: {{ data.id }}</p>
+            <p class="q-pa-xs">{{ user.email }}</p>
+            <p class="text-h6 q-pa-xs">{{ user.mobile }}</p>
+            <p class="text-h6 q-pa-xs">ID: {{ user.id }}</p>
           </div>
         </div>
 
@@ -32,7 +32,7 @@
 export default {
   name: 'HeaderUserId',
   props: {
-    data: {
+    user: {
       type: Object
     }
   }

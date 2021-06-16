@@ -26,6 +26,10 @@ router.route('/user/:id')
     .put(userController.editOne)
     .delete(userController.deleteOne)
 
+// User ID
+router.route('/getuser/:name')
+    .get(userController.getByKey)
+
 // Book
 router.route('/book')
     .post(bookController.post)

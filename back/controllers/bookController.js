@@ -1,97 +1,65 @@
 /*
  * Import Module
  ****************/
-
-const { use } = require("./router");
+const {
+    selectAll, insertInto, selectOneByID, deleteByID, joinWithID
+} = require('../store-sql')
 
 /*
  * Controller
  *************/
-module.exports = {
-    getBookJoinUser: (req, res) => {
-        // Récupération des books en relation avec l'id de user = books.author_id
-        let sql = `SELECT users.name, books.title, books.description, books.id
-                   FROM users
-                   LEFT OUTER JOIN books
-                   ON users.id = books.author_id 
-                   WHERE users.id = ${parseInt(req.params.id)} ;`
+// Method Join with id
+exports.getBookJoinUser = (req, res) => {
+    console.log('Controller getBookJoinUser: ', req.params.id)
+    // Récupération des books en relation avec l'id de user = books.author_id
+    // ('table1', 'table2', 'users.id', 'books.author_id', 2)
+    joinWithID('users', 'books', 'users.id', 'books.author_id', req.params.id).then(data => {
+        console.log(data)
+        res.json({
+            status: 200,
+            listBook: data,
+            message: "get Book join User successfully"
+        })
+    })
+}
 
-        console.log(req.params.id)
-
-        db.query(sql, function (err, data, fields) {
-            if (err) throw err;
+// Method Post
+exports.post = async (req, res) => {
+    console.log('Controller POST BOOK: ', req.body)
+    // SQL pour creer un book
+    // (title, description, author_id)
+    insertInto('books', { ...req.body }).then(() => {
+        joinWithID('users', 'books', 'users.id', 'books.author_id', req.body.author_id).then(data => {
             res.json({
                 status: 200,
                 listBook: data,
-                message: "get Book join User successfully"
+                message: "Add Book successfully"
             })
         })
-    },
-    // Method Post
-    post: async (req, res) => {
-        let sql = `INSERT INTO books (title,description,author_id) values(?)`;
-        let values = [
-            req.body.title,
-            req.body.description,
-            req.body.author_id
-        ];
-        console.log(req.body)
-        db.query(sql, [values], function (err, data, fields) {
-            if (err) throw err;
-            let sql = `SELECT users.name, books.title, books.description, books.id
-                       FROM users
-                       LEFT OUTER JOIN books
-                       ON users.id = books.author_id 
-                       WHERE users.id = ${parseInt(req.body.author_id)} ;`;
+    }).catch(err => console.log(err))
+}
 
-            db.query(sql, (error, dataRes, fields) => {
-                if (error) throw error;
+// Method Delete One
+// On veux supprimer un libvre et récupérer en réponse les livre de l'author du livre supprimer
+exports.deleteOne = (req, res) => {
+    // author sera égale à { author_id: 1 }
+    let authorID;
+    // Récupération de l'author (id)
+    selectOneByID('books', 'books.author_id', req.params.id).then(dataO => {
+        Object.keys(dataO).forEach(key => authorID = dataO[key])
+
+        // Supression de notre book
+        deleteByID('books', req.params.id).then(d => {
+            // recupération des books de l'user
+            joinWithID('users', 'books', 'users.id', 'books.author_id', authorID).then(data => {
+                console.log('dele', data)
                 res.json({
                     status: 200,
-                    listBook: dataRes,
-                    message: "Add Book successfully"
+                    listBook: data,
+                    message: "get Book join User successfully"
                 })
             })
         })
-    },
-    // Method Delete One
-    deleteOne: (req, res) => {
-        let author;
-        let sqlResult = `SELECT books.author_id
-                         FROM books
-                         WHERE books.id = ${parseInt(req.params.id)} ;`;
+    })
 
-        db.query(sqlResult, (errResult, result) => {
-            if (errResult) throw errResult;
-
-            Object
-                .keys(result)
-                .forEach(function (key) {
-                    var row = result[key];
-                    author = row.author_id
-                })
-
-            let sqlDel = `DELETE FROM books WHERE id = ${parseInt(req.params.id)}`;
-            db.query(sqlDel, function (errDel) {
-                if (errDel) throw errDel;
-
-                let sql = `SELECT users.name, books.title, books.description, books.id
-                           FROM users
-                           LEFT OUTER JOIN books
-                           ON users.id = books.author_id 
-                           WHERE users.id = ${parseInt(author)};`;
-                           
-                db.query(sql, (err, data) => {
-                    if (err) throw err;
-                    res.json({
-                        status: 200,
-                        listBook: data,
-                        message: "Delete Book successfully"
-                    })
-                })
-            })
-
-        })
-
-    }
 }

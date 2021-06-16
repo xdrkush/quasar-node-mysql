@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md">
+    <p>ferfer</p>
     <q-table
       title="Treats"
       :data="this.listBookUserId"
@@ -16,7 +17,7 @@
         <q-input debounce="300" color="primary" v-model="form.description" label='Description'/>
         <q-space />
 
-        <q-input debounce="300" disable color="primary" v-model="form.author_id" label='Author ID'/>
+        <q-input debounce="300" disable color="primary" v-model="form.id" label='Author ID'/>
         <q-space />
 
         <q-btn color="primary" :disable="loading" icon='add' @click="formCreateBook" />
@@ -109,6 +110,10 @@ export default {
     user: {
       type: Object
     }
+  },
+  mounted () {
+    this.form.id = this.user.id
+    this.getBookUserId(this.$route.params.id)
   }
 }
 </script>

@@ -24,11 +24,10 @@ const actions = {
       })
   },
   getUserId ({ commit }, payload) {
-    console.log('Get User ID')
     axios
       .get('/user/' + payload)
       .then(res => {
-        commit('setUserId', res.data.userID)
+        commit('setUserId', res.data.user)
       })
   },
   // eslint-disable-next-line no-empty-pattern

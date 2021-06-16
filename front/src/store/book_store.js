@@ -21,13 +21,11 @@ const actions = {
   },
   // eslint-disable-next-line no-empty-pattern
   createBook ({ commit }, payload) {
-    const p = payload
-    console.log(p)
     axios
       .post('/book', {
-        title: p.title,
-        author_id: p.author_id,
-        description: p.description
+        title: payload.title,
+        author_id: payload.author_id,
+        description: payload.description
       })
       .then(res => {
         commit('setListBookUserId', res.data.listBook)
@@ -41,6 +39,7 @@ const actions = {
     axios
       .delete(`/book/${payload}`)
       .then(res => {
+        console.log('ress front: ', res.data)
         commit('setListBookUserId', res.data.listBook)
       })
   }

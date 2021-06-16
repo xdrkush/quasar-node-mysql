@@ -7,7 +7,7 @@
           <q-btn class="text-primary" @click="$emit('closeModalUser')" dense flat icon="close" clickable v-close-popup></q-btn>
         </q-bar>
 
-        <headerUser :data='$props.data' />
+        <headerUser :user='$props.data' />
 
         <q-item v-if="this.delete" class="column col-md-12 col-12 text-center">
           <p class="text-h6">Êtes-vous sur de vouloir supprimer <u>{{ $props.data.name }}</u> ?</p>
