@@ -7,10 +7,13 @@
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
           rounded v-model="form.id" label="ID" disable/>
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
+          :rules="[ val => val && val.length > 0 || 'Vous devez ajouter du texte !']"
           rounded v-model="form.email" label="Email" />
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
+          :rules="[ val => val && val.length > 0 || 'Vous devez ajouter du texte !']"
           rounded v-model="form.name" label="Name" />
         <q-input class='col-md-4 col-12 col-xs-12 q-pa-xs'
+          :rules="[ val => val && val.length > 0 || 'Vous devez ajouter du texte !']"
           rounded v-model="form.mobile" label="Mobile" />
 
         <q-btn label='Submit'

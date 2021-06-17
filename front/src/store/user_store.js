@@ -21,47 +21,36 @@ const actions = {
       .get('/user')
       .then(res => {
         commit('setListUser', res.data.listUser)
-      })
+      }).catch((err) => console.log(err))
   },
   getUserId ({ commit }, payload) {
     axios
-      .get('/user/' + payload)
-      .then(res => {
+      .get('/user/' + payload).then(res => {
         commit('setUserId', res.data.user)
-      })
+      }).catch((err) => console.log(err))
   },
   // eslint-disable-next-line no-empty-pattern
   createUser ({ commit }, payload) {
-    const p = payload
     axios
       .post('/user', {
-        name: p.name,
-        mobile: p.mobile,
-        email: p.email
-      })
-      .then(res => {
+        name: payload.name,
+        mobile: payload.mobile,
+        email: payload.email
+      }).then(res => {
         commit('setListUser', res.data.listUser)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        commit('setUserId', res.data.user)
+      }).catch((err) => console.log(err))
   },
   // eslint-disable-next-line no-empty-pattern
   editOneUser ({ commit }, payload) {
-    const p = payload
-    console.log(p)
     axios
-      .put('/user/' + p.id, {
-        name: p.name,
-        mobile: p.mobile,
-        email: p.email
-      })
-      .then(res => {
+      .put('/user/' + payload.id, {
+        name: payload.name,
+        mobile: payload.mobile,
+        email: payload.email
+      }).then(res => {
         commit('setListUser', res.data.listUser)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      }).catch((err) => console.log(err))
   },
   // eslint-disable-next-line no-empty-pattern
   deleteOneUser ({ commit }, payload) {
@@ -69,13 +58,16 @@ const actions = {
       .delete(`/user/${payload}`)
       .then(res => {
         commit('setListUser', res.data.listUser)
-      })
+      }).catch((err) => console.log(err))
   }
 }
 
 const getters = {
   userID: state => {
     return state.userId
+  },
+  gettListUser: state => {
+    return state.listUser
   }
 }
 

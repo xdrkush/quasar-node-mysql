@@ -50,7 +50,7 @@
 
         </q-item>
 
-          <q-item
+        <q-item
           clickable
           tag="a"
           to="/crud"
@@ -63,6 +63,23 @@
 
           <q-item-section>
             <q-item-label>CRUD</q-item-label>
+          </q-item-section>
+
+        </q-item>
+
+        <q-item
+          clickable
+          tag="a"
+          to="/book"
+        >
+          <q-item-section
+            avatar
+          >
+            <q-icon name="school" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>BOOK</q-item-label>
           </q-item-section>
 
         </q-item>

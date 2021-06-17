@@ -1,9 +1,12 @@
 <template>
-  <div class="q-pa-md">
-    <p>ferfer</p>
+  <q-page class='q-pa-md'>
+
+    <p class="text-h4">Page Book</p>
+
     <q-table
+      v-if='gettListUser.length > 0'
       title="Treats"
-      :data="this.listBookUserId"
+      :data="this.setListBook"
       :columns="columns"
       row-key="id"
       :filter="filter"
@@ -21,10 +24,19 @@
         />
         <q-space />
 
-        <q-input debounce="300" disable color="primary" v-model="form.id" label='Author ID'/>
+        <q-select
+          debounce="300"
+          color="primary"
+          :options="gettListUser"
+          option-label='name'
+          option-value='id'
+          v-model="form.author_id"
+          label='Author ID'
+          :rules="[ val => val && val.length > 0 || 'Vous devez selectionner un utilisateur !']"
+        />
         <q-space />
 
-        <q-btn color="primary" :disable="loading" icon='add' @click="formCreateBook" />
+        <q-btn color="primary" :disable="loading" icon='add' @click="createBook(form)" />
         <q-space />
 
         <q-input debounce="300" color="primary" v-model="filter">
@@ -46,7 +58,7 @@
           </q-td>
 
           <q-td auto>
-            <p>{{ props.row.name }}</p>
+            <p>{{ props.row.author_id }}</p>
           </q-td>
 
           <q-td class="text-center">
@@ -65,13 +77,15 @@
       </template>
 
     </q-table>
-  </div>
+    <p v-else >Vous devez d'abord ajouter un utilisateur</p>
+  </q-page>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'PageBook',
   data () {
     return {
       loading: false,
@@ -80,8 +94,7 @@ export default {
       form: {
         title: '',
         description: '',
-        author_id: this.user.id,
-        join: true
+        author_id: ''
       },
       body: {},
       columns: [
@@ -95,32 +108,24 @@ export default {
           sortable: true
         },
         { name: 'descritption', align: 'left', label: 'Description', field: 'description', sortable: true },
-        { name: 'author', label: 'Author', align: 'left', field: 'name', sortable: true },
+        { name: 'author_id', label: 'AuthorID', align: 'left', field: 'author_id', sortable: true },
         { name: 'actions', label: 'Actions', align: 'center' }
       ]
     }
   },
   methods: {
-    formCreateBook () {
-      this.createBook(this.form)
-    },
     submitDeleteBook (id) {
-      this.body = { id, join: true }
+      this.body = { id, join: false }
       this.deleteOneBook(this.body)
     },
-    ...mapActions('book', ['createBook', 'getBookUserId', 'deleteOneBook'])
+    ...mapActions('book', ['getListBook', 'createBook', 'deleteOneBook'])
   },
   computed: {
-    ...mapGetters('book', ['listBookUserId'])
-  },
-  props: {
-    user: {
-      type: Object
-    }
+    ...mapGetters('book', ['setListBook']),
+    ...mapGetters('user', ['gettListUser'])
   },
   mounted () {
-    this.form.id = this.user.id
-    this.getBookUserId(this.$route.params.id)
+    this.getListBook()
   }
 }
 </script>

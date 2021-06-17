@@ -17,6 +17,14 @@ const routes = [
     ]
   },
 
+  {
+    path: '/book',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'PageBook', component: () => import('pages/Book.vue'), props: true }
+    ]
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

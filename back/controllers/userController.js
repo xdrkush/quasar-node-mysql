@@ -83,14 +83,18 @@ exports.editOne = async (req, res) => {
     //     email: 'bru@no.fr',
     //     mobile: '0606060610' 
     // }
-    await sql.updateOne('users', { ...req.body }, req.params.id).then(() => {
+    await sql.updateOne('users', { ...req.body }, req.params.id).then((d) => {
+        // On recherche notre utilisateur mofifier
+        sql.selectAllById('users', req.params.id).then(user => {
         // On recherche tout les users
-        sql.selectAll('users').then(data => {
-            // On renvoie la réponse
-            res.json({
-                status: 200,
-                listUser: data,
-                message: "Update Users successfully"
+            sql.selectAll('users').then(listUser => {
+                // On renvoie la réponse
+                res.json({
+                    status: 200,
+                    listUser,
+                    user,
+                    message: "Update Users successfully"
+                })
             })
         })
     }).catch(err => console.log(err))
