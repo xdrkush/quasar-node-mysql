@@ -83,7 +83,7 @@ export default {
       form: {
         title: '',
         description: '',
-        author_id: this.user.id,
+        author_id: { id: this.user.id },
         join: true
       },
       body: {},

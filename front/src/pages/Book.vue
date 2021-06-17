@@ -105,7 +105,7 @@ export default {
       form: {
         title: '',
         description: '',
-        author_id: ''
+        author_id: {}
       },
       body: {},
       columns: [
