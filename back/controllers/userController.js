@@ -1,9 +1,7 @@
 /*
  * Import Module
  ****************/
-const {
-    selectAll, selectAllById, selectAllByKey, insertInto, updateOne, deleteByID, deleteAll
-} = require('../store-sql')
+const { sql } = require('../store-sql')
 
 /*
  * Controller
@@ -13,7 +11,9 @@ const {
 exports.get = async (req, res) => {
     console.log('Controller GET USER: ')
 
-    await selectAll('users').then(data => {
+    // On recherche tout les users avec tout les attributs
+    await sql.selectAll('users').then(data => {
+        // On renvoie la réponse
         res.json({
             status: 200,
             listUser: data,
@@ -24,7 +24,9 @@ exports.get = async (req, res) => {
 
 // Method GetID
 exports.getID = async (req, res) => {
-    await selectAllById('users', req.params.id).then(data => {
+    // On recherche dans la table 'users' via l'id passer en params de l'url
+    await sql.selectAllById('users', req.params.id).then(data => {
+        // On renvoie la réponse
         res.json({
             status: 200,
             user: data,
@@ -35,7 +37,8 @@ exports.getID = async (req, res) => {
 
 // Method GetByKey
 exports.getByKey = async (req, res) => {
-    await selectAllByKey('users', req.params).then(data => {
+    await sql.selectAllByKey('users', req.params).then(data => {
+        // On renvoie la réponse
         res.json({
             status: 200,
             user: data,
@@ -50,8 +53,15 @@ exports.post = async (req, res) => {
 
     // SQL pour creer un users
     // values = (name, email, mobile)
-    await insertInto('users', { ...req.body }).then(async () => {
-        await selectAll('users').then(data => {
+    // {
+    //     name: 'Bruno',
+    //     email: 'bru@no.fr',
+    //     mobile: '0606060610' 
+    // }
+    await sql.insertInto('users', { ...req.body }).then(async () => {
+        // On recherche tout les users
+        await sql.selectAll('users').then(data => {
+            // On renvoie la réponse
             res.json({
                 status: 200,
                 listUser: data,
@@ -62,11 +72,21 @@ exports.post = async (req, res) => {
 }
 
 // Method Edit One User
-exports.editOne = (req, res) => {
+exports.editOne = async (req, res) => {
     console.log('Controller EditOne USER: ', req.body)
 
-    updateOne('users', { ...req.body }, req.params.id).then(() => {
-        selectAll('users').then(data => {
+    // SQL pour update un user
+    // sql = ('table', values, id)
+    // values = (name, email, mobile)
+    // {
+    //     name: 'Bruno',
+    //     email: 'bru@no.fr',
+    //     mobile: '0606060610' 
+    // }
+    await sql.updateOne('users', { ...req.body }, req.params.id).then(() => {
+        // On recherche tout les users
+        sql.selectAll('users').then(data => {
+            // On renvoie la réponse
             res.json({
                 status: 200,
                 listUser: data,
@@ -77,10 +97,14 @@ exports.editOne = (req, res) => {
 }
 
 // Method Delete One
-exports.deleteOne = (req, res) => {
+exports.deleteOne = async (req, res) => {
     console.log('Controller DeleteOne USER: ', req.params.id)
-    deleteByID('users', req.params.id).then(() => {
-        selectAll('users').then(data => {
+
+    // On supprime un users par son id
+    await sql.deleteByID('users', req.params.id).then(() => {
+        // On recherche tout les users
+        sql.selectAll('users').then(data => {
+            // On renvoie la réponse
             res.json({
                 status: 200,
                 listUser: data,
@@ -91,9 +115,14 @@ exports.deleteOne = (req, res) => {
 }
 
 // Method Delete All
-exports.deleteAll = (req, res) => {
-    deleteAll('users').then(() => {
-        selectAll('users').then(data => {
+exports.deleteAll = async (req, res) => {
+    console.log('Controller DeleteAll USER: ', req.params.id)
+
+    // Supprimer tout dans la table 'users'
+    await sql.deleteAll('users').then(() => {
+        // On recherche tout les users
+        sql.selectAll('users').then(data => {
+            // On renvoie la réponse
             res.json({
                 status: 200,
                 listUser: data,

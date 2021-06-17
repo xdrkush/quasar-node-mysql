@@ -2,6 +2,7 @@
  * Server.js
  ******************************/
 
+require('dotenv').config()
 const
     express = require('express'),
     app = express(),
@@ -9,6 +10,7 @@ const
     bodyParser = require('body-parser'),
     cors = require('cors'),
     port = process.env.PORT || 4000;
+
 
 // Cors
 app.use(cors({
@@ -20,19 +22,15 @@ app.use(cors({
 // Mysql
 db = mysql.createConnection({
     host: 'localhost',
-    user: 'tuto',
-    password: 'tuto$',
-    database: 'quasar_tutorial'
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 db.connect((err) => {
     if (err) console.error('error connecting: ' + err.stack);
     console.log('connected as id ' + db.threadId);
 });
-
-// Express Static (Permet de pointer un dossier static sur une URL)
-// Exemple: le chemin /assets nous donnera accès au dossier public
-app.use(express.static('public'));
 
 // Body Parser qui nous permet de parser des data d'une req a une autre
 app.use(bodyParser.json());

@@ -43,7 +43,7 @@ export default {
     },
     mountedData () {
       console.log('COMPFormEditUser: ', this.userID.name)
-      this.form = this.user
+      this.form = this.userID
     },
     ...mapActions('user', ['editOneUser'])
   },

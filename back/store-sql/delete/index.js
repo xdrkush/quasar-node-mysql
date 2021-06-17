@@ -3,8 +3,8 @@
 exports.deleteByID = (table, id) => {
     return new Promise((resolve, reject) => {
         // SQL pour delete un users à partir de son id
-        let sql = `DELETE FROM ${ table }  WHERE id = ?`;
-        db.query(sql, [id], function (err, data, fields) {
+        let sql = `DELETE FROM ${ table }  WHERE id = ${ id }`;
+        db.query(sql, function (err, data, fields) {
             if (err) reject(err);
             resolve(data)
         })

@@ -1,11 +1,11 @@
-
+// Import des fonctions
 const { insertInto } = require('./insert')
 const { deleteByID, deleteAll } = require('./delete')
 const { updateOne } = require('./update')
 const { joinWithID } = require('./join')
 const { selectAll, selectAllById, selectAllByKey, selectOneByID } = require('./select')
 
-module.exports = {
+exports.sql = {
     // Insert
     insertInto,
 

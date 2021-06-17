@@ -12,7 +12,7 @@
       >
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
-            {{ user.letter }}
+            {{ user.id }}
           </q-avatar>
         </q-item-section>
 
