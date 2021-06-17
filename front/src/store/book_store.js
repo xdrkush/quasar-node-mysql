@@ -1,10 +1,12 @@
 import axios from 'axios'
 
+// Variable dynamic (state)
 const state = {
   listBookUserId: [],
   listBook: []
 }
 
+// Function Mutation for change state
 const mutations = {
   setListBookUserId (state, value) {
     state.listBookUserId = value
@@ -14,49 +16,56 @@ const mutations = {
   }
 }
 
+// Stockage function
 const actions = {
-  // eslint-disable-next-line no-empty-pattern
+  // Function for get USER by ID
   getBookUserId ({ commit }, payload) {
-    axios
-      .get('/book/user/' + payload).then(res => {
-        commit('setListBookUserId', res.data.listBook)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.get('/book/user/' + payload).then(res => {
+      // Change state with commit
+      commit('setListBookUserId', res.data.listBook)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function for get List BOOK
   getListBook ({ commit }) {
-    axios
-      .get('/book').then(res => {
-        console.log('store list book: ', res.data)
-        commit('setListBook', res.data.listBook)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.get('/book').then(res => {
+      // Change state with commit
+      commit('setListBook', res.data.listBook)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function crete BOOK
   createBook ({ commit }, payload) {
     let path = '/book?join=false'
+    // Condition for filter req in back-end
     if (payload.join === true) path = '/book?join=true'
-    axios
-      .post(path, {
-        title: payload.title,
-        author_id: payload.author_id.id,
-        description: payload.description
-      }).then(res => {
-        console.log('res, data store createbook', res.data)
-        if (payload.join === true) commit('setListBookUserId', res.data.listBook)
-        else commit('setListBook', res.data.listBook)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.post(path, {
+      title: payload.title,
+      author_id: payload.author_id.id,
+      description: payload.description
+    }).then(res => {
+      // Change state with commit
+      if (payload.join === true) commit('setListBookUserId', res.data.listBook)
+      // Change state with commit
+      else commit('setListBook', res.data.listBook)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function for delete BOOK
   deleteOneBook ({ commit }, payload) {
     let path = `/book/${payload.id}?join=false`
+    // Condition for filter req in back-end
     if (payload.join === true) path = `/book/${payload.id}?join=true`
-    axios.delete(path)
-      .then(res => {
-        if (payload.join === true) commit('setListBookUserId', res.data.listBook)
-        else commit('setListBook', res.data.listBook)
-      }).catch((err) => console.log(err))
+    axios.delete(path).then(res => {
+      // Change state with commit
+      if (payload.join === true) commit('setListBookUserId', res.data.listBook)
+      // Change state with commit
+      else commit('setListBook', res.data.listBook)
+    }).catch((err) => console.log(err))
   }
 }
 
+// Function calculed
 const getters = {
   listBookUserId: state => {
     return state.listBookUserId

@@ -1,8 +1,9 @@
 <template>
   <q-page class='q-pa-md'>
-
+    <!-- Page Book -->
     <p class="text-h4">Page Book</p>
 
+    <!-- Table list of Book if(listUser > 0) -->
     <q-table
       v-if='gettListUser.length > 0'
       title="Treats"
@@ -13,17 +14,21 @@
       :loading="loading"
     >
 
+      <!-- Header table -->
       <template v-slot:top>
+        <!-- Input title -->
         <q-input debounce="300" color="primary" v-model="form.title" label='Title'
           :rules="[ val => val && val.length > 0 || 'Vous devez ajouter du texte !']"
         />
         <q-space />
 
+        <!-- Input Description -->
         <q-input debounce="300" color="primary" v-model="form.description" label='Description'
           :rules="[ val => val && val.length > 0 || 'Vous devez ajouter du texte !']"
         />
         <q-space />
 
+        <!-- Select Author ID -->
         <q-select
           debounce="300"
           color="primary"
@@ -36,9 +41,11 @@
         />
         <q-space />
 
+        <!-- Button create book -->
         <q-btn color="primary" :disable="loading" icon='add' @click="createBook(form)" />
         <q-space />
 
+        <!-- Input Search -->
         <q-input debounce="300" color="primary" v-model="filter">
           <template v-slot:append>
             <q-icon name="search" />
@@ -47,20 +54,22 @@
 
       </template>
 
+      <!-- Body Table -->
       <template v-slot:body="props">
         <q-tr :props="props">
+          <!-- Title -->
           <q-td auto>
             <p>{{ props.row.title }}</p>
           </q-td>
-
+          <!-- Description -->
           <q-td auto>
             <p>{{ props.row.description }}</p>
           </q-td>
-
+          <!-- Author ID -->
           <q-td auto>
             <p>{{ props.row.author_id }}</p>
           </q-td>
-
+          <!-- Button -->
           <q-td class="text-center">
             <q-btn
               size="sm"
@@ -77,11 +86,13 @@
       </template>
 
     </q-table>
+    <!-- If (listUser < 0) -->
     <p v-else >Vous devez d'abord ajouter un utilisateur</p>
   </q-page>
 </template>
 
 <script>
+// Improt Actions & Getters
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -113,6 +124,7 @@ export default {
       ]
     }
   },
+  // Function
   methods: {
     submitDeleteBook (id) {
       this.body = { id, join: false }
@@ -120,10 +132,12 @@ export default {
     },
     ...mapActions('book', ['getListBook', 'createBook', 'deleteOneBook'])
   },
+  // Function calculed
   computed: {
     ...mapGetters('book', ['setListBook']),
     ...mapGetters('user', ['gettListUser'])
   },
+  // Function run on charged components
   mounted () {
     this.getListBook()
   }

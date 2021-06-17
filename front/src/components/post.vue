@@ -20,10 +20,12 @@
 </template>
 
 <script>
+// Improt Actions
 import { mapActions } from 'vuex'
 
 export default {
   name: 'post',
+  // Data in components
   data () {
     return {
       form: {
@@ -33,6 +35,7 @@ export default {
       }
     }
   },
+  // Functions
   methods: {
     formCreateUser () {
       this.createUser(this.form)

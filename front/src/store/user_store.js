@@ -1,10 +1,12 @@
 import axios from 'axios'
 
+// Variable dynamic (state)
 const state = {
   listUser: [],
   userId: {}
 }
 
+// Function Mutation for change state
 const mutations = {
   setListUser (state, value) {
     state.listUser = value
@@ -14,54 +16,61 @@ const mutations = {
   }
 }
 
+// Stockage function
 const actions = {
+  // Function for get List USER
   getListUser ({ commit }) {
-    console.log('Get List User')
-    axios
-      .get('/user')
-      .then(res => {
-        commit('setListUser', res.data.listUser)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.get('/user').then(res => {
+      // Change state with commit
+      commit('setListUser', res.data.listUser)
+    }).catch((err) => console.log(err))
   },
+  // Function for get USER by ID
   getUserId ({ commit }, payload) {
-    axios
-      .get('/user/' + payload).then(res => {
-        commit('setUserId', res.data.user)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.get('/user/' + payload).then(res => {
+      // Change state with commit
+      commit('setUserId', res.data.user)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function for create USER
   createUser ({ commit }, payload) {
-    axios
-      .post('/user', {
-        name: payload.name,
-        mobile: payload.mobile,
-        email: payload.email
-      }).then(res => {
-        commit('setListUser', res.data.listUser)
-        commit('setUserId', res.data.user)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.post('/user', {
+      name: payload.name,
+      mobile: payload.mobile,
+      email: payload.email
+    }).then(res => {
+      // Change state with commit
+      commit('setListUser', res.data.listUser)
+      // Change state with commit
+      commit('setUserId', res.data.user)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function for edit USER
   editOneUser ({ commit }, payload) {
-    axios
-      .put('/user/' + payload.id, {
-        name: payload.name,
-        mobile: payload.mobile,
-        email: payload.email
-      }).then(res => {
-        commit('setListUser', res.data.listUser)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.put('/user/' + payload.id, {
+      name: payload.name,
+      mobile: payload.mobile,
+      email: payload.email
+    }).then(res => {
+      // Change state with commit
+      commit('setListUser', res.data.listUser)
+    }).catch((err) => console.log(err))
   },
-  // eslint-disable-next-line no-empty-pattern
+  // Function for delete USER
   deleteOneUser ({ commit }, payload) {
-    axios
-      .delete(`/user/${payload}`)
-      .then(res => {
-        commit('setListUser', res.data.listUser)
-      }).catch((err) => console.log(err))
+    // Check api with axios
+    axios.delete(`/user/${payload}`).then(res => {
+      // Change state with commit
+      commit('setListUser', res.data.listUser)
+    }).catch((err) => console.log(err))
   }
 }
 
+// Function calculed
 const getters = {
   userID: state => {
     return state.userId

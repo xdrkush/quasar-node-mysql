@@ -1,7 +1,7 @@
 /*
  * Import Module
  ****************/
-const { sql } = require('../store-sql')
+const { sql } = require('drsql')
 
 /*
  * Controller

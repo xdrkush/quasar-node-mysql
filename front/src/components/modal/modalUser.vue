@@ -23,13 +23,16 @@
 </template>
 
 <script>
-import headerUser from '../headerUserId'
+// Import Actions form store
 import { mapActions } from 'vuex'
 
 export default {
+  name: 'modalUser',
+  // Components
   components: {
-    headerUser
+    headerUser: () => import('../headerUserId')
   },
+  // Function
   methods: {
     submitDeleteUser (id) {
       this.deleteOneUser(id)
@@ -37,6 +40,7 @@ export default {
     },
     ...mapActions('user', ['deleteOneUser'])
   },
+  // import data from parent components
   props: {
     modal: {
       default: false

@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <!-- Navbar -->
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -19,6 +20,7 @@
       </q-toolbar>
     </q-header>
 
+    <!-- Sidebar -->
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -33,6 +35,7 @@
           Essential Links
         </q-item-label>
 
+        <!-- Item Home -->
         <q-item
           clickable
           tag="a"
@@ -47,9 +50,9 @@
           <q-item-section>
             <q-item-label>HOME</q-item-label>
           </q-item-section>
-
         </q-item>
 
+        <!-- Item CRUD -->
         <q-item
           clickable
           tag="a"
@@ -64,9 +67,9 @@
           <q-item-section>
             <q-item-label>CRUD</q-item-label>
           </q-item-section>
-
         </q-item>
 
+        <!-- Item BOOK -->
         <q-item
           clickable
           tag="a"
@@ -81,8 +84,8 @@
           <q-item-section>
             <q-item-label>BOOK</q-item-label>
           </q-item-section>
-
         </q-item>
+
       </q-list>
     </q-drawer>
 
@@ -94,7 +97,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'MainLayout',
   data () {

@@ -17,24 +17,27 @@
 </template>
 
 <script>
-import get from '../components/get'
-import post from '../components/post'
-import put from '../components/put'
-import dele from '../components/delete'
-
+// Import Getters & Actions of all Store
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'PageIndex',
+  // Import components
   components: {
-    get, post, put, dele
+    get: () => import('../components/get'),
+    post: () => import('../components/post'),
+    put: () => import('../components/put'),
+    dele: () => import('../components/delete')
   },
+  // Functions
   methods: {
     ...mapActions('user', ['getListUser'])
   },
+  // Function Calculed
   computed: {
     ...mapState('user', ['listUser'])
   },
+  // Function actived on charged components or Pages
   mounted () {
     this.getListUser()
   }

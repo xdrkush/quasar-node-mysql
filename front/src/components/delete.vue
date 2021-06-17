@@ -4,18 +4,22 @@
     <q-separator/>
 
     <q-list bordered>
+      <!-- While in listUser  -->
       <q-item v-for="user in listUser" :key="user.id" @click="showModalUser(user)" class="q-my-sm" clickable v-ripple>
+        <!-- Icon -->
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
-            {{ user.letter }}
+            {{ user.id }}
           </q-avatar>
         </q-item-section>
 
+        <!-- Name & Email -->
         <q-item-section>
           <q-item-label>{{ user.name }}</q-item-label>
           <q-item-label caption lines="1">{{ user.email }}</q-item-label>
         </q-item-section>
 
+        <!-- Icon -->
         <q-item-section side>
           <q-icon name="close" color="red" />
         </q-item-section>
@@ -38,10 +42,9 @@
 </template>
 
 <script>
-import modalUser from './modal/modalUser'
-
 export default {
   name: 'delete',
+  // Data in components
   data () {
     return {
       title: 'Delete',
@@ -49,9 +52,11 @@ export default {
       formDelete: null
     }
   },
+  // Import Components
   components: {
-    modalUser
+    modalUser: () => import('./modal/modalUser')
   },
+  // Functions
   methods: {
     showModalUser (data) {
       this.user = data
@@ -63,6 +68,7 @@ export default {
       this.formDelete = null
     }
   },
+  // Import data from components parents
   props: {
     listUser: Array
   }

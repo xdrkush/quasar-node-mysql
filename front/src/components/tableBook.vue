@@ -69,14 +69,17 @@
 </template>
 
 <script>
+// Import Actions & Getters
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  // Data in components
   data () {
     return {
       loading: false,
       filter: '',
       rowCount: 10,
+      // Data form
       form: {
         title: '',
         description: '',
@@ -84,6 +87,7 @@ export default {
         join: true
       },
       body: {},
+      // Column in table
       columns: [
         {
           name: 'title',
@@ -100,6 +104,7 @@ export default {
       ]
     }
   },
+  // Functions
   methods: {
     formCreateBook () {
       this.createBook(this.form)
@@ -110,14 +115,17 @@ export default {
     },
     ...mapActions('book', ['createBook', 'getBookUserId', 'deleteOneBook'])
   },
+  // Functions calculed
   computed: {
     ...mapGetters('book', ['listBookUserId'])
   },
+  // Import data from components parents
   props: {
     user: {
       type: Object
     }
   },
+  // Function run on charged components
   mounted () {
     this.form.id = this.user.id
     this.getBookUserId(this.$route.params.id)

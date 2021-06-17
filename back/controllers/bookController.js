@@ -1,7 +1,7 @@
 /*
  * Import Module
  ****************/
-const { sql } = require('../store-sql')
+const { sql } = require('drsql')
 
 /*
  * Controller
@@ -28,6 +28,7 @@ exports.getBookJoinUser = async (req, res) => {
     // Récupération des books en relation avec l'id de user = books.author_id
     // ('table1', 'table2', 'users.id', 'books.author_id', 2)
     await sql.joinWithID('users', 'books', 'users.id', 'books.author_id', req.params.id).then(data => {
+        // On renvoie la réponse
         res.json({
             status: 200,
             listBook: data,
@@ -45,6 +46,7 @@ exports.create = async (req, res) => {
         if (req.query.join === 'true') {
             // On va rechercher les books en fonction de l'user du book ajouter (req.body.author_id)
             sql.joinWithID('users', 'books', 'users.id', 'books.author_id', req.body.author_id).then(data => {
+                // On renvoie la réponse
                 res.json({
                     status: 200,
                     listBook: data,
@@ -52,7 +54,9 @@ exports.create = async (req, res) => {
                 })
             })
         } else {
+            // On va rechercher tout les elements dans la table Books
             sql.selectAll('books').then(data => {
+                // On renvoie la réponse
                 res.json({
                     status: 200,
                     listBook: data,
@@ -78,6 +82,7 @@ exports.deleteOne = async (req, res) => {
             if (req.query.join === 'true') {
                 // On va rechercher les books en fonction de l'user du book ajouter (req.body.author_id)
                 sql.joinWithID('users', 'books', 'users.id', 'books.author_id', authorID).then(data => {
+                    // On renvoie la réponse
                     res.json({
                         status: 200,
                         listBook: data,
@@ -85,7 +90,9 @@ exports.deleteOne = async (req, res) => {
                     })
                 })
             } else {
+                // On va rechercher tout les elements dans la table Books
                 sql.selectAll('books').then(data => {
+                    // On renvoie la réponse
                     res.json({
                         status: 200,
                         listBook: data,
